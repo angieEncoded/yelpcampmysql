@@ -9,3 +9,16 @@ This project may differ quite a bit from the code in Colt's course. I am using m
 I am working on learning async\await syntax but I need a lot more practice so some of this may still have old promise chain style code in places.
 
 If you are looking at my little project and have any questions about how or why I did something, feel free to ask!
+
+## notable deviations
+
+mysql2, of course
+I am also using dotenv and both the main folder and the seeds folder will need a .env file with the following data (filled in with your specifications):
+
+PORT=
+HOST=
+USER=
+PASSWORD=
+DB=
+
+I don't know if he goes over using this tool later on in the course, but as of this writing I am on section 39 and there hasn't been a mention of dotenv.
