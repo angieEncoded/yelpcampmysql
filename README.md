@@ -1,6 +1,6 @@
-# angie's version of Colt Steele's Yelpcamp project
+# Angie's version of Colt Steele's Yelpcamp project
 
-This is my version of Colt Steele's new Yelpcamp project in the 2021 version of his Web Developer Bootcamp. I has taken the older version of this course back when he was still teaching using Cloud9. This was before they were acquired by Amazon and no longer offered the free tier. I lost all the work I had done in that first boot camp because I was too embarassed to put it up on github. I downloaded it in a folder when Cloud9 shut down, and subsequently misplaced that zip file.
+This is my version of Colt Steele's new Yelpcamp project in the 2021 version of his Web Developer Bootcamp. I took the older version of this course back when he was still teaching using Cloud9. This was before they were acquired by Amazon and no longer offered the free tier. I lost all the work I had done in that first boot camp because I was too embarassed to put it up on github. I downloaded it in a folder when Cloud9 shut down, and subsequently misplaced that zip file.
 
 I learned my lesson because now I don't have any of that code to refer to anymore.
 
@@ -10,15 +10,19 @@ I am working on learning async\await syntax but I need a lot more practice so so
 
 If you are looking at my little project and have any questions about how or why I did something, feel free to ask!
 
-## notable deviations
+## Notable deviations
 
 mysql2, of course
 I am also using dotenv and both the main folder and the seeds folder will need a .env file with the following data (filled in with your specifications):
 
 PORT=
+
 HOST=
+
 USER=
+
 PASSWORD=
+
 DB=
 
 I don't know if he goes over using this tool later on in the course, but as of this writing I am on section 39 and there hasn't been a mention of dotenv.
