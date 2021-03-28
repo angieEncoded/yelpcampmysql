@@ -16,10 +16,26 @@ module.exports = class Campground {
     );
   }
 
+  update() {
+    return db.execute(
+      "update campgrounds set title = ?, price = ?, description = ?, location = ? where id = ?",
+      [this.title, this.price, this.description, this.location, this.id]
+    );
+  }
+
   static deleteAll() {
     return db.execute("delete from campgrounds");
   }
-  static selectCampgroundByID(id) {
-    return db.execute("select from campgrounds where id = ?", [id]);
+
+  static getAllCampgrounds() {
+    return db.execute(
+      "select id, title, price, description, location from campgrounds"
+    );
+  }
+  static getCampgroundByID(id) {
+    return db.execute(
+      "select id, title, price, description, location from campgrounds where id = ?",
+      [id]
+    );
   }
 };
