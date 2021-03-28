@@ -27,6 +27,10 @@ module.exports = class Campground {
     return db.execute("delete from campgrounds");
   }
 
+  static deleteById(id) {
+    return db.execute("delete from campgrounds where id = ?", [id]);
+  }
+
   static getAllCampgrounds() {
     return db.execute(
       "select id, title, price, description, location from campgrounds"

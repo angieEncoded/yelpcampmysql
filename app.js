@@ -47,9 +47,8 @@ app.get("/campgrounds/:id/edit", async (req, res) => {
   res.render("campgrounds/edit", { campground: rows[0] });
 });
 
-// THIS IS WHERE i LEFT OFF BEFORE HAVING TO LEAVE 1PM SUNDAY 03282021
 // PATCH /campgrounds/:id
-app.patch("/campgrounds/:id", async (req, res) => {
+app.put("/campgrounds/:id", async (req, res) => {
   let campground = req.body.campground;
   console.log(campground);
   const [rows, metadata] = await Campground.getCampgroundByID(req.params.id);
@@ -60,9 +59,8 @@ app.patch("/campgrounds/:id", async (req, res) => {
     campground.description,
     campground.location
   );
-  //updatedCampground.update();
-  console.log(updatedCampground);
-  console.log(rows[0].id);
+  await updatedCampground.update();
+  res.redirect(`/campgrounds/${rows[0].id}`);
 });
 
 // GET /campgrounds/:id (show)
@@ -70,6 +68,13 @@ app.get("/campgrounds/:id", async (req, res) => {
   const [rows, metadata] = await Campground.getCampgroundByID(req.params.id);
   // console.log(rows); // Remember to pull the first item from the array
   res.render("campgrounds/show", { campground: rows[0] });
+});
+
+// DELETE /campgrounds/:id (delete)
+app.delete("/campgrounds/:id", async (req, res) => {
+  const { id } = req.params;
+  await Campground.deleteById(id);
+  res.redirect("/campgrounds");
 });
 
 /* -------------------------------------------------------- */
