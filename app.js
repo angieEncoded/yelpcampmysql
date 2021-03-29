@@ -3,9 +3,11 @@ const express = require("express");
 const app = express();
 const path = require("path");
 const methodOverride = require("method-override");
+const engine = require("ejs-mate");
 const Campground = require("./models/Campground.js");
 
 // ejs setup
+app.engine("ejs", engine);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
