@@ -27,9 +27,17 @@ Campground.deleteAll()
       );
       const random1000 = Math.floor(Math.random() * 1000);
       const title = `${sample(descriptors)} ${sample(places)}`;
+      const image = `https://source.unsplash.com/collection/483251`;
       const description = lorem.generateSentences(5);
       const location = `${cities[random1000].city}, ${cities[random1000].state}`;
-      const camp = new Campground(null, title, price, description, location);
+      const camp = new Campground(
+        null,
+        title,
+        image,
+        price,
+        description,
+        location
+      );
       camp.save();
     }
   })

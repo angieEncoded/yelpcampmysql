@@ -34,6 +34,7 @@ app.post("/campgrounds", async (req, res) => {
   const newCamp = new Campground(
     null,
     details.title,
+    details.image,
     parseFloat(details.price),
     details.description,
     details.location
@@ -52,11 +53,11 @@ app.get("/campgrounds/:id/edit", async (req, res) => {
 // PATCH /campgrounds/:id
 app.put("/campgrounds/:id", async (req, res) => {
   let campground = req.body.campground;
-  console.log(campground);
   const [rows, metadata] = await Campground.getCampgroundByID(req.params.id);
   const updatedCampground = new Campground(
     rows[0].id,
     campground.title,
+    campground.image,
     Number(campground.price),
     campground.description,
     campground.location
