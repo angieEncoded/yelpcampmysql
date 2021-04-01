@@ -56,4 +56,14 @@ module.exports = class Campground {
       [id]
     );
   }
+  static getCampgroundAndReviewsById(id) {
+    return db.execute(
+      // check for NULL in reviews to prevent error populating
+      `SELECT campgrounds.id AS campgroundId, campgrounds.title, campgrounds.image, campgrounds.price, campgrounds.description, campgrounds.location, reviews.id AS reviewId, reviews.rating, reviews.details, reviews.username FROM campgrounds 
+      LEFT JOIN reviews
+      ON campgrounds.id = reviews.campground_id
+      WHERE campgrounds.id = ?`,
+      [id]
+    );
+  }
 };

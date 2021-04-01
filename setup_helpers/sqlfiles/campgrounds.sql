@@ -13,5 +13,4 @@ CREATE TABLE `campgrounds` (
 )
 COLLATE='utf8mb4_unicode_ci'
 ENGINE=InnoDB
-AUTO_INCREMENT=256
 ;

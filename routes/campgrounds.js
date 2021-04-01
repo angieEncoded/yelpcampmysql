@@ -1,19 +1,32 @@
 const express = require("express");
 const router = express.Router();
 const Campground = require("../models/Campground.js");
+const Review = require("../models/Reviews");
 const catchAsyncErrors = require("../util/catchAsyncErrors");
-const validateCampgrounds = require("../util/ValidateCampgrounds");
+const validate = require("../util/ValidationHelpers");
+const AppError = require("../util/AppError");
 
-router.use((req, res, next) => {
-  if (req.query.isAdmin) {
-    next();
-  } else {
-    res.send(
-      "Sorry, my middleware fake auth is preventing you from getting through - use ?isAdmin=true at the end of the url to get in!"
+// Reviews routes below here
+router.post(
+  "/:id/reviews",
+  validate.validateReviews,
+  catchAsyncErrors(async (req, res, next) => {
+    const id = req.params.id;
+    const reviewDetails = req.body.review;
+    const username = "josie"; // hard code a username until sessions
+    const review = new Review(
+      null,
+      reviewDetails.rating,
+      reviewDetails.details,
+      id,
+      username
     );
-  }
-});
+    await review.save();
+    res.redirect(`/campgrounds/${id}`);
+  })
+);
 
+// GET /campgrounds
 router.get(
   "/",
   catchAsyncErrors(async (req, res, next) => {
@@ -30,7 +43,7 @@ router.get("/new", (req, res) => {
 // POST /campgrounds (create)
 router.post(
   "/",
-  validateCampgrounds,
+  validate.validateCampgrounds,
   catchAsyncErrors(async (req, res, next) => {
     const details = req.body.campground;
     const newCamp = new Campground(
@@ -57,10 +70,10 @@ router.get(
   })
 );
 
-// PATCH /campgrounds/:id
+// PUT /campgrounds/:id
 router.put(
   "/:id",
-  validateCampgrounds,
+  validate.validateCampgrounds,
   catchAsyncErrors(async (req, res, next) => {
     let campground = req.body.campground;
     const [rows, metadata] = await Campground.getCampgroundByID(req.params.id);
@@ -78,13 +91,18 @@ router.put(
 );
 
 // GET /campgrounds/:id (show)
-router.get("/:id", async (req, res, next) => {
-  const [rows, metadata] = await Campground.getCampgroundByID(req.params.id);
-  if (!rows.length) {
-    return next(new AppError("That campground does not exist", 404));
-  }
-  res.render("campgrounds/show", { campground: rows[0] });
-});
+router.get(
+  "/:id",
+  catchAsyncErrors(async (req, res, next) => {
+    const [rows, metadata] = await Campground.getCampgroundAndReviewsById(
+      req.params.id
+    );
+    if (!rows.length) {
+      return next(new AppError("That campground does not exist", 404));
+    }
+    res.render("campgrounds/show", { campground: rows });
+  })
+);
 
 // DELETE /campgrounds/:id (delete)
 router.delete(
