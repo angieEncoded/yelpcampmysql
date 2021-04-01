@@ -8,8 +8,13 @@
     <title>Boilerplate</title>
 </head>
 <body class="d-flex flex-column vh-100">
- 
     <%- include("../partials/navbar")%>
+    <!-- -----------------------------User Feedback -------------------------------- -->
+    <%= success %>
+    <%= error %>
+
+
+
     <main class="container">
     <!-- This is the insertion point -->
     <%- body %>

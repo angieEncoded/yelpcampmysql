@@ -8,6 +8,7 @@ const engine = require("ejs-mate");
 const AppError = require("./util/AppError");
 const camgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
+const flash = require('connect-flash');
 const session = require("express-session");
 // const mySqlStore = require("express-mysql-session")(session);
 // const db = require("./util/database")
@@ -28,11 +29,12 @@ app.set("views", path.join(__dirname, "views"));
 
 // additional helpers
 app.use(morgan("tiny"));
+app.use(flash());
 app.use(session({
   secret: process.env.SECRET || 'shutupnode',
   /*store: sessionStore,*/
   resave: false,
-  saveUninitialized: true,
+  saveUninitialized: false,
   cookie: {
     expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
     maxAge: 1000 * 60 * 60 * 24 * 7,
@@ -41,17 +43,20 @@ app.use(session({
 }));
 
 
-
-
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
 // serve static assets
 app.use(express.static(path.join(__dirname, "public")))
 
+// Set up a middleware to give us access to anything that is stored in the flash as success
+app.use((req, res, next) => {
+  res.locals.success = req.flash('success');
+  next();
+})
+
 
 // Routes - we can use the pattern prefix in this place so we don't have to use it in the route file
-
 app.use("/campgrounds", camgroundRoutes);
 app.use("/campgrounds/:id/reviews", reviewRoutes);
 

@@ -33,6 +33,7 @@ router.post("/", validate.validateCampgrounds, catchAsyncErrors(async (req, res,
     details.location
   );
   const result = await newCamp.save();
+  req.flash('success', 'Successfully added new campground')
   res.redirect(`/campgrounds/${result[0].insertId}`);
 })
 );
