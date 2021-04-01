@@ -5,6 +5,7 @@ module.exports.validateCampgrounds = (req, res, next) => {
   // Deal with validation using Joi (new, no longer using express-validator)
   const { error } = campgroundSchema.validate(req.body);
   if (error) {
+    console.log("in campgrounds")
     const message = error.details.map((element) => element.message).join(",");
     throw new AppError(message, 400);
   } else {

@@ -6,9 +6,10 @@ const methodOverride = require("method-override");
 const engine = require("ejs-mate");
 const AppError = require("./util/AppError");
 const camgroundRoutes = require("./routes/campgrounds");
+const reviewRoutes = require("./routes/reviews");
 const session = require("express-session");
 const sessionOptions = require("./util/SessionOptions");
-// const flash = require("connect-flash");
+const morgan = require("morgan");
 
 // ejs setup
 app.engine("ejs", engine);
@@ -16,18 +17,19 @@ app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
 // additional helpers
+app.use(morgan("tiny"));
 app.use(session(sessionOptions));
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
-// app.use(flash());
 
-// app.use((req, res, next) => {
-//   res.locals.messages = req.flash("success");
-//   next();
-// });
+// serve static assets
+app.use(express.static(path.join(__dirname, "public")))
+
 
 // Routes - we can use the pattern prefix in this place so we don't have to use it in the route file
+
 app.use("/campgrounds", camgroundRoutes);
+app.use("/campgrounds/:id/reviews", reviewRoutes);
 
 app.get("/", (req, res) => {
   res.render("home");
@@ -53,4 +55,4 @@ app.use((err, req, res, next) => {
   res.status(status).render("error", { error: err });
 });
 
-app.listen(process.env.PORT, () => {});
+app.listen(process.env.PORT, () => { });
