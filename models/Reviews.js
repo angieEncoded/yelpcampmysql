@@ -22,9 +22,9 @@ module.exports = class Review {
   //     );
   //   }
 
-  //   static deleteById(id) {
-  //     return db.execute("delete from reviews where id = ?", [id]);
-  //   }
+  static deleteById(id) {
+    return db.execute("delete from reviews where id = ?", [id]);
+  }
 
   //   static getReviewByID(id) {
   //     return db.execute(

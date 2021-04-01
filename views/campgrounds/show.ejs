@@ -6,15 +6,18 @@
 
 
   <div class="row">
+
+
+    <!-- -----------------------------------------Campground Details Section----------------------------------------- -->
     <div class="col-6">
       <div class="card mb-3">
         <img src="<%= campground[0].image %>" class="card-img-top" alt="Campground image">
         <div class="card-body">
           <h5 class="card-title">
-            <%= campground.title %>
+            <%= campground[0].title %>
           </h5>
           <p class="card-text">
-            <%= campground.description %>
+            <%= campground[0].description %>
           </p>
         </div>
         <ul class="list-group list-group-flush">
@@ -33,10 +36,10 @@
           </li>
         </ul>
       </div>
-
-
-
     </div>
+    <!-- -----------------------------------------Campground Details Section----------------------------------------- -->
+
+
     <div class="col-6">
       <!-- ------------------------- Leave a Review Section ----------------------- -->
       <h2>Leave a review</h2>
@@ -55,8 +58,6 @@
       <!-- ------------------------- Leave a Review Section ----------------------- -->
 
     <!-- -------------------------------- Reviews ------------------------------------- -->
-
-    
       <div class="mb-3">
         <% if(campground[0].details !== null) { %>
             <% for (let item of campground){ %>
@@ -65,15 +66,16 @@
                   <h5 class="card-title">Rating: <%= item.rating %></h5>
                   <p class="card-text">Review: <%= item.details %></p>
 
-                  <%= item.reviewId %>
+                  <form class="d-inline" action="/campgrounds/<%=item.campgroundId%>/reviews/<%= item.reviewId %>?_method=DELETE" method="POST">
+                    <button class='btn btn-sm btn-danger'>Delete</button>
+                  </form>
                 </div>
               </div>
  
             <% } %>
         <% } %>
       </div>
-    
-  <!-- -------------------------------- Reviews ------------------------------------- -->
+    <!-- -------------------------------- Reviews ------------------------------------- -->
 
 
     </div>

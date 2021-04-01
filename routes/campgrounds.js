@@ -5,6 +5,7 @@ const Review = require("../models/Reviews");
 const catchAsyncErrors = require("../util/catchAsyncErrors");
 const validate = require("../util/ValidationHelpers");
 const AppError = require("../util/AppError");
+const { reviewSchema } = require("../util/ValidationSchemas.js");
 
 // Reviews routes below here
 router.post(
@@ -23,6 +24,16 @@ router.post(
     );
     await review.save();
     res.redirect(`/campgrounds/${id}`);
+  })
+);
+
+// delete review /campgrounds/:id/reviews/:reviewId
+router.delete(
+  "/:id/reviews/:reviewId",
+  catchAsyncErrors(async (req, res, next) => {
+    // console.log(req.params.reviewId);
+    await Review.deleteById(req.params.reviewId);
+    res.redirect(`/campgrounds/${req.params.id}`);
   })
 );
 
