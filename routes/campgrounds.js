@@ -45,7 +45,9 @@ router.get("/:id", catchAsyncErrors(async (req, res, next) => {
     req.params.id
   );
   if (!rows.length) {
-    return next(new AppError("That campground does not exist", 404));
+    console.log("Getting into the error")
+    req.flash('error', "Well, that page doesn't seem to be there anymore.");
+    return res.redirect("/campgrounds");
   }
   res.render("campgrounds/show", { campground: rows });
 })
@@ -73,6 +75,7 @@ router.put("/:id", validate.validateCampgrounds, catchAsyncErrors(async (req, re
     campground.location
   );
   await updatedCampground.update();
+  req.flash('success', 'Successfully updated campground')
   res.redirect(`/campgrounds/${rows[0].id}`);
 })
 );
@@ -82,6 +85,7 @@ router.put("/:id", validate.validateCampgrounds, catchAsyncErrors(async (req, re
 router.delete("/:id", catchAsyncErrors(async (req, res, next) => {
   const { id } = req.params;
   await Campground.deleteById(id);
+  req.flash('success', 'Successfully deleted campground')
   res.redirect("/campgrounds");
 })
 );

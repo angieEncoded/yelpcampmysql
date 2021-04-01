@@ -14,6 +14,7 @@ router.post("/", validate.validateReviews, catchAsyncErrors(async (req, res, nex
   const username = "josie"; // hard code a username until sessions
   const review = new Review(null, reviewDetails.rating, reviewDetails.details, id, username);
   await review.save();
+  req.flash('success', 'Successfully added your review!')
   res.redirect(`/campgrounds/${id}`);
 })
 );

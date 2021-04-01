@@ -29,7 +29,7 @@
             <div class="mb-3">
               <a class="btn btn-secondary" href="/campgrounds/<%= campground[0].campgroundId %>/edit" class="card-link">Edit</a>
               <a class="btn btn-success" href="/campgrounds" class="card-link">Back</a>
-              <form class='d-inline' action="/campgrounds/<%= campground[0].id %>?_method=DELETE" method="POST">
+              <form class='d-inline' action="/campgrounds/<%= campground[0].campgroundId %>?_method=DELETE" method="POST">
                 <button class="btn btn-danger">Delete</button>
               </form>
             </div>

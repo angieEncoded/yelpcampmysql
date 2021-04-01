@@ -52,6 +52,7 @@ app.use(express.static(path.join(__dirname, "public")))
 // Set up a middleware to give us access to anything that is stored in the flash as success
 app.use((req, res, next) => {
   res.locals.success = req.flash('success');
+  res.locals.error = req.flash('error');
   next();
 })
 
