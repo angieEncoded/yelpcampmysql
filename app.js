@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const morgan = require("morgan");
 const app = express();
 const path = require("path");
 const methodOverride = require("method-override");
@@ -8,17 +9,40 @@ const AppError = require("./util/AppError");
 const camgroundRoutes = require("./routes/campgrounds");
 const reviewRoutes = require("./routes/reviews");
 const session = require("express-session");
-const sessionOptions = require("./util/SessionOptions");
-const morgan = require("morgan");
+// const mySqlStore = require("express-mysql-session")(session);
+// const db = require("./util/database")
+
+// const sessionStore = new mySqlStore({
+//   clearExpired: true,
+//   checkExpirationInterval: 86400000,
+//   expiration: 86400000,
+//   createDatabaseTable: true,
+// }, db);
+
 
 // ejs setup
 app.engine("ejs", engine);
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "views"));
 
+
 // additional helpers
 app.use(morgan("tiny"));
-app.use(session(sessionOptions));
+app.use(session({
+  secret: process.env.SECRET || 'shutupnode',
+  /*store: sessionStore,*/
+  resave: false,
+  saveUninitialized: true,
+  cookie: {
+    expires: Date.now() + 1000 * 60 * 60 * 24 * 7,
+    maxAge: 1000 * 60 * 60 * 24 * 7,
+    httpOnly: true
+  }
+}));
+
+
+
+
 app.use(express.urlencoded({ extended: true }));
 app.use(methodOverride("_method"));
 
